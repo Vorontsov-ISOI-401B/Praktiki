@@ -1,13 +1,47 @@
 from pydantic import BaseModel
+from typing import List
 
-class Todo(BaseModel):
+# Создания книги
+class Book(BaseModel):
     id: int
-    item: str
+    title: str
+    author: str
 
-    class Config:
-        json_schema_extra = {
+    model_config = {
+        "json_schema_extra": {
             "examples": [{
                 "id": 1,
-                "item": "Example schema!"
+                "title": "Мастер и Маргарита",
+                "author": "Миахаил Афанасьевич Булгаков"
             }]
         }
+    }
+
+# Обновления книги
+class BookItem(BaseModel):
+    title: str
+    author: str
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [{
+                "title": "Дело утоплениц",
+                "author": "Софья Ведищева Эвербук"
+            }]
+        }
+    }
+
+# Ответа из списка книг (скрывает ID)
+class BookItems(BaseModel):
+    books: List[BookItem]
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [{
+                "books": [
+                    {"title": "Мастер и Маргарита", "author": "Миахаил Афанасьевич Булгаков"},
+                    {"title": "Дело утоплениц", "author": "Софья Ведищева Эвербук"}
+                ]
+            }]
+        }
+    }
